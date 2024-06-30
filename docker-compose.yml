@@ -1,0 +1,45 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  backend:
+    image: smaug07/spend-app-backend:v1
+    container_name: backend
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mf_sugar_uat
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "6464:6464"
+    depends_on:
+      - mysql
+
+  frontend:
+    image: smaug07/spend-app-frontend:v1
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  mysql-data:
