@@ -8,4 +8,4 @@ WORKDIR /app
 COPY target/sugarmarket-0.0.1-SNAPSHOT.jar /app
 
 # Specify the command to run your application
-CMD ["java", "-jar", "your-application.jar"]
+CMD ["java", "-jar", "sugarmarket-0.0.1-SNAPSHOT.jar"]
