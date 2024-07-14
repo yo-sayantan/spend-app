@@ -5,7 +5,9 @@ FROM openjdk:17-jdk
 WORKDIR /app
 
 # Copy the packaged jar file into the container
-COPY target/sugarmarket-0.0.1-SNAPSHOT.jar /app
+COPY target/sugarmarket-0.0.1-SNAPSHOT.jar /app/sugarmarket-0.0.1-SNAPSHOT.jar
+
+ENV SPRING_CONFIG_LOCATION=file:/app/application.properties
 
 # Specify the command to run your application
-CMD ["java", "-jar", "sugarmarket-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar /app/sugarmarket-0.0.1-SNAPSHOT.jar --spring.config.location=${SPRING_CONFIG_LOCATION}"]
