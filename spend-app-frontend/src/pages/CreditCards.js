@@ -32,7 +32,7 @@ const CreditCards = () => {
         const fetchData = async () => {
             try {
                 axios.defaults.headers.common['Authorization'] = cookies['access_token'];
-                const dbData = await axios.get(COMMON_URL + "api/get-credit-cards");
+                const dbData = await axios.get(COMMON_URL + "app/get-credit-cards");
                 if (dbData.status === 200 && dbData.data) {
                     setData(dbData.data);
                     setIsLoading(false);
@@ -81,7 +81,7 @@ const CreditCards = () => {
         handleDialog();
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
         const data = { id: id, bankName: bankName, creditCardName: creditCardName, statementDate: statementDate, dueDate: dueDate };
-        axios.post(COMMON_URL + "api/save-credit-card", data).then((res) => {
+        axios.post(COMMON_URL + "app/save-credit-card", data).then((res) => {
             setIsSaved(!isSaved);
         }).catch((error) => {
             console.error('userinfo failed:', error);
@@ -100,7 +100,7 @@ const CreditCards = () => {
         setIsLoading(true);
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
         const data = { id: id }
-        axios.post(COMMON_URL + "api/delete-credit-card", data).then((res) => {
+        axios.post(COMMON_URL + "app/delete-credit-card", data).then((res) => {
             setIsSaved(!isSaved);
         }).catch((error) => {
             console.error('userinfo failed:', error);

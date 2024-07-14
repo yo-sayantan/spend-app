@@ -37,8 +37,8 @@ const Expenses = () => {
             try {
                 axios.defaults.headers.common['Authorization'] = cookies['access_token'];
                 const [dbData, creditCards] = await Promise.all([
-                    axios.get(COMMON_URL + "api/get-expense"),
-                    axios.get(COMMON_URL + "api/get-credit-cards"),
+                    axios.get(COMMON_URL + "app/get-expense"),
+                    axios.get(COMMON_URL + "app/get-credit-cards"),
                 ]);
                 if (dbData.status === 200 && creditCards.status === 200 && dbData.data && creditCards.data) {
                     var modifiedData = dbData.data;
@@ -107,7 +107,7 @@ const Expenses = () => {
         handleDialog();
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
         const data = { id: id, creditCard: { id: cardId }, amount: amount, expenseDate: expenseDate, expenseTime: dayjs(expenseTime).format(HH_MM), reason: reason };
-        axios.post(COMMON_URL + "api/save-expense", data).then((res) => {
+        axios.post(COMMON_URL + "app/save-expense", data).then((res) => {
             setIsSaved(!isSaved);
         }).catch((error) => {
             console.error('userinfo failed:', error);
@@ -128,7 +128,7 @@ const Expenses = () => {
         setIsLoading(true);
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
         const data = { id: id }
-        axios.post(COMMON_URL + "api/delete-expense", data).then((res) => {
+        axios.post(COMMON_URL + "app/delete-expense", data).then((res) => {
             setIsSaved(!isSaved);
         }).catch((error) => {
             console.error('userinfo failed:', error);

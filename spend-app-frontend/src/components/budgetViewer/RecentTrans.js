@@ -26,8 +26,8 @@ const RecentTrans = (props) => {
             // if (!props.disableMonth)
             //     reqMonth = props.selectedMonth;
             // const reqData = { budgetYear: props.selectedYear, budgetMonth: reqMonth };
-            // const res = await axios.post(COMMON_URL + "api/get-pie-chart", reqData);
-            // const totalData = await axios.post(COMMON_URL + "api/get-total-amount", reqData);
+            // const res = await axios.post(COMMON_URL + "app/get-pie-chart", reqData);
+            // const totalData = await axios.post(COMMON_URL + "app/get-total-amount", reqData);
             // if (res.status === 200 && totalData.status === 200) {
             //     setData(res.data);
             //     setTotalAmount(totalData.data["totalSpend"]);

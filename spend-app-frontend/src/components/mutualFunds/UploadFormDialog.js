@@ -46,7 +46,7 @@ const UploadFormDialog = ({ open, onClose }) => {
             formData.append('file', selectedFile);
             formData.append('password', password);
             axios.defaults.headers.common['Authorization'] = cookies['access_token'];
-            axios.post(COMMON_URL + 'api/bulk-upload', formData)
+            axios.post(COMMON_URL + 'app/bulk-upload', formData)
                 .then((response) => {
                     if (response.status === 200) {
                         toast.success('sucessfully file uploaded.', {

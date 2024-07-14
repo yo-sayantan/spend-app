@@ -188,7 +188,7 @@ const MutualFund = () => {
 
   const updateData = () => {
     axios.defaults.headers.common['Authorization'] = cookies['access_token'];
-    axios.get(COMMON_URL + "api/get-order-details")
+    axios.get(COMMON_URL + "app/get-order-details")
       .then((res) => {
         var sign = "";
         if (res.data.returnAmount >= 0) {
@@ -222,8 +222,8 @@ const MutualFund = () => {
     try {
       axios.defaults.headers.common['Authorization'] = cookies['access_token'];
       const [fundData, portfolio] = await Promise.all([
-        axios.get(COMMON_URL + "api/get-mutualfunds"),
-        axios.get(COMMON_URL + "api/get-order-details"),
+        axios.get(COMMON_URL + "app/get-mutualfunds"),
+        axios.get(COMMON_URL + "app/get-order-details"),
       ]);
       if (fundData.status === 200 && portfolio.status === 200) {
         setMutualFundData(fundData.data);

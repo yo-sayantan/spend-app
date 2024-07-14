@@ -59,7 +59,7 @@ const AddItemDialog = (props) => {
         props.onClose();
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
         const data = { id: id, mutualFund: { schemeCode: mutualFund }, side: side, amount: investedAmount, dateOfEvent: date };
-        axios.post(COMMON_URL + "api/save-order-detail", data).then((res) => {
+        axios.post(COMMON_URL + "app/save-order-detail", data).then((res) => {
             toast.success(res.data, {
                 position: toast.POSITION.TOP_RIGHT,
                 style: { backgroundColor: 'green', color: '#fff' },

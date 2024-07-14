@@ -27,7 +27,7 @@ const BarChartView = (props) => {
             if (!props.disableMonth)
                 reqMonth = props.selectedMonth;
             const reqData = { budgetYear: props.selectedYear, budgetMonth: reqMonth };
-            const res = await axios.post(COMMON_URL + "api/get-budget-chart", reqData);
+            const res = await axios.post(COMMON_URL + "app/get-budget-chart", reqData);
             if (res.status === 200) {
                 setData(res.data);
             }

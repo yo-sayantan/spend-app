@@ -28,8 +28,8 @@ const ManageMutualFund = () => {
         const fetchData = async () => {
             try {
                 axios.defaults.headers.common['Authorization'] = cookies['access_token'];
-                //const marketDataPromise = axios.get(COMMON_URL + "api/get-mf-api-data");
-                const dbData = await axios.get(COMMON_URL + "api/get-mutualfunds");
+                //const marketDataPromise = axios.get(COMMON_URL + "app/get-mf-api-data");
+                const dbData = await axios.get(COMMON_URL + "app/get-mutualfunds");
 
                 //const [marketData, dbData] = await Promise.all([marketDataPromise, dbDataPromise]);
 
@@ -68,7 +68,7 @@ const ManageMutualFund = () => {
         handleDialog();
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
         const data = { id: id, schemeName: schemeName, schemeCode: schemeCode };
-        axios.post(COMMON_URL + "api/save-mutualfund", data).then((res) => {
+        axios.post(COMMON_URL + "app/save-mutualfund", data).then((res) => {
             setIsSaved(true);
         }).catch((error) => {
             console.error('userinfo failed:', error);

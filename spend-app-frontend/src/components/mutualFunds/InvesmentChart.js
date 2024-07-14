@@ -59,7 +59,7 @@ const InvestmentChart = () => {
     const fetchData = async () => {
         try {
             axios.defaults.headers.common['Authorization'] = cookies['access_token'];
-            const res = await axios.get(COMMON_URL + "api/get-line-chart");
+            const res = await axios.get(COMMON_URL + "app/get-line-chart");
             if (res.status === 200) {
                 setData(res.data);
             }

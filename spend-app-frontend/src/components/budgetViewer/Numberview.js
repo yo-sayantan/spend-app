@@ -15,7 +15,7 @@ const Numberview = (props) => {
     const updateBudgetData = () => {
         props.setIsLoading(true);
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
-        axios.post(COMMON_URL + "api/update-budget-data").then((res) => {
+        axios.post(COMMON_URL + "app/update-budget-data").then((res) => {
             props.setSaved(!props.isSaved);
         }).catch((error) => {
             console.error('userinfo failed:', error);

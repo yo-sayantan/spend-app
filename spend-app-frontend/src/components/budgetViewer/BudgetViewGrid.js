@@ -27,7 +27,7 @@ const BudgetViewGrid = (props) => {
                 if(!props.disableMonth)
                     reqMonth = props.selectedMonth;
                 const reqData = { budgetYear: props.selectedYear, budgetMonth: reqMonth };
-                const dbData = await axios.post(COMMON_URL + "api/get-budgets", reqData);
+                const dbData = await axios.post(COMMON_URL + "app/get-budgets", reqData);
                 if (dbData.status === 200 && dbData.data) {
                     var modifiedData = dbData.data;
                     modifiedData.forEach(item => {
@@ -66,7 +66,7 @@ const BudgetViewGrid = (props) => {
         handleDialog();
         axios.defaults.headers.common['Authorization'] = cookies['access_token'];
         const data = { id: id, remainingAmount: remainingAmount };
-        axios.post(COMMON_URL + "api/modify-remaing-amount", data).then((res) => {
+        axios.post(COMMON_URL + "app/modify-remaing-amount", data).then((res) => {
             props.setSaved(!props.isSaved);
         }).catch((error) => {
             console.error('userinfo failed:', error);
