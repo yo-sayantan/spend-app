@@ -330,6 +330,11 @@ databaseChangeLog:
                   type: date
                   constraints:
                     nullable: true
+              - column:
+                  name: due_date
+                  type: date
+                  constraints:
+                    nullable: true
             foreignKeyConstraints:
               - foreignKeyConstraint:
                   baseColumnNames: fk_credit_card_id
