@@ -1,6 +1,9 @@
 package com.finance.sugarmarket.auth.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,6 +27,9 @@ public class SecurityConfiguration {
 	private AuthenticationProvider authenticationProvider;
 	@Autowired
 	private LogoutHandler logoutHandler;
+	@Value("${cors.allowedOrigins}")
+    private String allowedOrigins;
+
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,7 +47,7 @@ public class SecurityConfiguration {
 
 	private CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("*"); // Replace with the actual origin of your frontend app
+		configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
 		configuration.addAllowedMethod("*");
 		configuration.addAllowedHeader("*");
 		//configuration.setAllowCredentials(true); // Add this line if you need to allow credentials (e.g., cookies)
