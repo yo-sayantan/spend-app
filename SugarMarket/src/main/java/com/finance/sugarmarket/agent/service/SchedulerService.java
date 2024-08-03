@@ -33,7 +33,7 @@ public class SchedulerService {
 			scheduler.start();
 			Schedulers.getInstance().getAllJobs().forEach((jobName, cron)->{
 				try {
-					String className = "com.finance.sugarmarket.agent.jobs" + jobName;
+					String className = "com.finance.sugarmarket.agent.jobs." + jobName;
 					Class<?> clazz = Class.forName(className);
 					JobDetail jobDetails = buildJobDetail(clazz);
 					Trigger trigger = buildTrigger(clazz, "00 00 00 ? * * *");
