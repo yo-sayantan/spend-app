@@ -14,7 +14,7 @@ public class Schedulers {
         //add jobs here
         jobs.put("UpdateBudgetAgent", "00 00 00 ? * * *");
         jobs.put("RemoveInactiveUsersAgent", "00 00/15 * ? * * *");
-        jobs.put("UpdateMutualFundAgent", "00 00 00-10/02 ? * * *");
+        //jobs.put("UpdateMutualFundAgent", "00 00 00-10/02 ? * * *");
     }
 
     public static synchronized Schedulers getInstance() {
