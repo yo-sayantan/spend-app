@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.finance.sugarmarket.auth.dto.AuthenticationRequest;
 import com.finance.sugarmarket.auth.dto.AuthenticationResponse;
+import com.finance.sugarmarket.auth.dto.SignUpRequestDTO;
+import com.finance.sugarmarket.auth.dto.SignUpResponseDTO;
 import com.finance.sugarmarket.auth.service.AuthenticationService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -49,5 +51,27 @@ public class AuthenticationController {
 			log.error("getUserDetailsByJWT failed", e.getMessage());
 		}
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	}
+	
+	@PostMapping("/signup")
+	public ResponseEntity<SignUpResponseDTO> signup(@RequestBody SignUpRequestDTO request){
+		try {
+			return ResponseEntity.ok(authenticationService.signup(request));
+		}
+		catch (Exception e) {
+			log.error("getUserDetailsByJWT failed", e.getMessage());
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new SignUpResponseDTO("There are some internal error"));
+	}
+	
+	@PostMapping("/verifyotp")
+	public ResponseEntity<SignUpResponseDTO> verifyotp(@RequestBody SignUpRequestDTO request){
+		try {
+			return ResponseEntity.ok(authenticationService.verifyotp(request));
+		}
+		catch (Exception e) {
+			log.error("getUserDetailsByJWT failed", e.getMessage());
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new SignUpResponseDTO("There are some internal error"));
 	}
 }

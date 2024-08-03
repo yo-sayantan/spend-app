@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import { COMMON_URL } from '../constants/URL';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -151,6 +151,9 @@ const Login = () => {
                     >
                         Login
                     </Button>
+                    <Link to="/signup" className={classes.link}>
+                        Don't have an account? Sign Up
+                    </Link>
                 </div>
             </Container>
         </div>

@@ -12,6 +12,7 @@ import { COMMON_URL } from "./constants/URL";
 import Loading from "./main/Loading";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { ToastContainer } from "react-toastify";
+import SignUp from "./main/SignUp";
 
 function App() {
   const [cookies, setCookie] = useCookies(['access_token']);
@@ -73,6 +74,7 @@ function App() {
             (<><Route path="/" element={<Navigate to="/dashboard" />} />
               <Route path="/dashboard" element={<MiniDrawer />} /></>)}
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Router>
       <ToastContainer autoClose={3000} />

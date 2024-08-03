@@ -1,5 +1,6 @@
 package com.finance.sugarmarket.auth.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,14 +23,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		MFUser user = userRepo.findByUsername(username);
+		MFUser user = userRepo.findBYUsernameAndISActive(username);
 		if (user == null)
 			throw new UsernameNotFoundException(username + " not found");
 
-		MapRoleUser mapRoleUser = mapRoleUserRepo.findByUser(user);
+		MapRoleUser mapRoleUser = mapRoleUserRepo.findByUser(user.getId());
 
 		return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(),
 				mapRoleUser.getRole().getRoleName(), user.getFullname());
 	}
+	
 
 }

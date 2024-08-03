@@ -7,6 +7,7 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.finance.sugarmarket.agent.jobs.UpdateBudgetAgent;
+import com.finance.sugarmarket.agent.constants.Schedulers;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -30,29 +31,32 @@ public class SchedulerService {
 	public void init() {
 		try {
 			scheduler.start();
-			JobDetail jobDetails = buildJobDetail(UpdateBudgetAgent.class);
-			Trigger trigger = buildTrigger(UpdateBudgetAgent.class, "00 00 00 ? * * *");
-			//run every day at 12
-			
-			scheduler.scheduleJob(jobDetails, trigger);
+			Schedulers.getInstance().getAllJobs().forEach((jobName, cron)->{
+				try {
+					String className = "com.finance.sugarmarket.agent.jobs" + jobName;
+					Class<?> clazz = Class.forName(className);
+					JobDetail jobDetails = buildJobDetail(clazz);
+					Trigger trigger = buildTrigger(clazz, "00 00 00 ? * * *");
+					scheduler.scheduleJob(jobDetails, trigger);
+				}
+				catch (Exception e) {
+					log.error("error while scheduling job " + jobName, e);
+				}
+			});
 		} catch (Exception e) {
 			log.error("error while starting scheduler: ", e);
 		}
 	}
 
-//	public List<String> getAllAgents() {
-//		List<String> agents = new ArrayList<>(AgentConstants.AgentMap.keySet());
-//		return agents;
-//	}
-//
-//	public void triggerAgentByClass(String AgentName) throws Exception {
-//		log.info("Triggering " + AgentName);
-//		// scheduler.start();
-//		JobDetail jobDetails = buildJobDetail(AgentConstants.AgentMap.get(AgentName));
-//		Trigger trigger = buildTrigger(AgentConstants.AgentMap.get(AgentName));
-//
-//		scheduler.scheduleJob(jobDetails, trigger);
-//	}
+	public void triggerAgentByClass(String jobName) throws Exception {
+		log.info("Triggering " + jobName);
+		String className = "com.finance.sugarmarket.agent.jobs" + jobName;
+		Class<?> clazz = Class.forName(className);
+		JobDetail jobDetails = buildJobDetail(clazz);
+		Trigger trigger = buildTrigger(clazz);
+
+		scheduler.scheduleJob(jobDetails, trigger);
+	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private JobDetail buildJobDetail(Class jobClass) {
@@ -68,6 +72,16 @@ public class SchedulerService {
 		return TriggerBuilder.newTrigger().withIdentity(jobClass.getSimpleName())
 				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
 				.startAt(new Date(System.currentTimeMillis())).build();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private Trigger buildTrigger(Class jobClass) {
+		return TriggerBuilder.newTrigger()
+                .withIdentity(jobClass.getSimpleName())
+                .startNow()
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withMisfireHandlingInstructionFireNow())
+                .build();
 	}
 
 //	private Trigger buildTrigger(Class jobClass) {
