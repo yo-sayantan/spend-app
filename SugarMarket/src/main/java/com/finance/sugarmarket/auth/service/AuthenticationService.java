@@ -111,7 +111,7 @@ public class AuthenticationService {
 			return new SignUpResponseDTO("Failed to send OTP. Please try again.");
 		}
 		return new SignUpResponseDTO(request.getUsername(), request.getEmailId(),
-				"OTP is sent to the registered email ID");
+				"OTP is sent to the registered email ID", true);
 	}
 
 	private MapRoleUser saveMapRoleUser(MFUser user) {
@@ -152,21 +152,23 @@ public class AuthenticationService {
 
 	public SignUpResponseDTO verifyotp(SignUpRequestDTO request) {
 		OTPDetails otp = UserOTPs.getInstance().getOtp(request.getUsername());
-		if(otp.getExpirationTime() > System.currentTimeMillis() || otp.getOtp().equals(request.getOtp())) {
-			UserOTPs.getInstance().removeOtp(request.getUsername());
+		if(otp != null && 
+				(otp.getExpirationTime() > System.currentTimeMillis() 
+						|| otp.getOtp().equals(request.getOtp()))) {
 			MFUser user = userRepo.findByUsername(request.getUsername());
 			user.setIsActive(true);
 			userRepo.save(user);
-			return new SignUpResponseDTO(request.getUsername(), request.getEmailId(),
-					"Signup successful please login");
-		}
-		else if(otp.getExpirationTime() < System.currentTimeMillis()) {
 			UserOTPs.getInstance().removeOtp(request.getUsername());
 			return new SignUpResponseDTO(request.getUsername(), request.getEmailId(),
-					"OTP Expired");
+					"Signup successful please login", true);
+		}
+		else if(otp != null && otp.getExpirationTime() < System.currentTimeMillis()) {
+			UserOTPs.getInstance().removeOtp(request.getUsername());
+			return new SignUpResponseDTO(request.getUsername(), request.getEmailId(),
+					"OTP Expired", false);
 		}
 		return new SignUpResponseDTO(request.getUsername(), request.getEmailId(),
-				"incorrect OTP");
+				"incorrect OTP", false);
 	}
 
 }

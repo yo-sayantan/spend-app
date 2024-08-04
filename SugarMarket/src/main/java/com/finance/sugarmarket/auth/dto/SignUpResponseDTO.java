@@ -5,11 +5,13 @@ public class SignUpResponseDTO {
     private String username;
     private String emailId;
     private String message;
+    private Boolean isValid;
 
-    public SignUpResponseDTO(String username, String emailId, String message) {
+    public SignUpResponseDTO(String username, String emailId, String message, Boolean isValid) {
         this.username = username;
         this.emailId = emailId;
         this.message = message;
+        this.isValid = isValid;
     }
     
     public SignUpResponseDTO(String message) {
@@ -40,4 +42,12 @@ public class SignUpResponseDTO {
     public void setMessage(String message) {
         this.message = message;
     }
+
+	public Boolean getIsValid() {
+		return isValid;
+	}
+
+	public void setIsValid(Boolean isValid) {
+		this.isValid = isValid;
+	}
 }
