@@ -61,7 +61,7 @@ public class AuthenticationController {
 		catch (Exception e) {
 			log.error("getUserDetailsByJWT failed", e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new SignUpResponseDTO("There are some internal error"));
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new SignUpResponseDTO("There are some internal error", false));
 	}
 	
 	@PostMapping("/verifyotp")
@@ -72,6 +72,6 @@ public class AuthenticationController {
 		catch (Exception e) {
 			log.error("getUserDetailsByJWT failed", e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new SignUpResponseDTO("There are some internal error"));
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new SignUpResponseDTO("There are some internal error", false));
 	}
 }

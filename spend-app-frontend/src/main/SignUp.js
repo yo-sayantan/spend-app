@@ -77,17 +77,17 @@ const SignUp = () => {
         try {
             const userDetails = { username: username, otp: otp };
             const response = await axios.post(COMMON_URL + 'auth/verifyotp', userDetails);
-            if (response.status === 200) {
-                    toast.success('Signup successful! Please log in.', {
-                        position: toast.POSITION.TOP_RIGHT,
-                        style: { backgroundColor: 'green', color: '#fff' },
-                    });
-                    navigate('/login');
-                } else {
-                    toast.error('Signup failed. Please try again.', {
-                        position: toast.POSITION.TOP_RIGHT,
-                        style: { backgroundColor: 'red', color: '#fff' },
-                    });
+            if (response.status === 200 && response.data.isValid) {
+                toast.success(response.data.message, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    style: { backgroundColor: 'green', color: '#fff' },
+                });
+                navigate('/login');
+            } else {
+                toast.error(response.data.message, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    style: { backgroundColor: 'red', color: '#fff' },
+                });
             }
         } catch (error) {
             console.error('Failed to send OTP:', error);
@@ -130,14 +130,14 @@ const SignUp = () => {
         try {
             const userDetails = { username: username, emailId: emailId, password: password, phoneNumber: phoneNumber, fullName: fullName };
             const response = await axios.post(COMMON_URL + 'auth/signup', userDetails);
-            if (response.status === 200) {
-                toast.success('OTP sent to your phone number.', {
+            if (response.status === 200 && response.data.isValid) {
+                toast.success(response.data.message, {
                     position: toast.POSITION.TOP_RIGHT,
                     style: { backgroundColor: 'green', color: '#fff' },
                 });
                 setIsOtpSent(true);
             } else {
-                toast.error('Failed to send OTP. Please try again.', {
+                toast.error(response.data.message, {
                     position: toast.POSITION.TOP_RIGHT,
                     style: { backgroundColor: 'red', color: '#fff' },
                 });
@@ -161,6 +161,14 @@ const SignUp = () => {
     const validatePhoneNumber = (phone) => {
         const re = /^\d{10}$/;
         return re.test(String(phone));
+    };
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        // Allow only integers and maximum length of 6
+        if (/^\d*$/.test(value) && value.length <= 6) {
+            setOtp(value);
+        }
     };
 
     return (
@@ -250,8 +258,9 @@ const SignUp = () => {
                                         fullWidth
                                         label="OTP"
                                         value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
+                                        onChange={handleChange}
                                         className={classes.input}
+                                        inputProps={{ maxLength: 6 }}
                                     />
                                     <Button
                                         fullWidth

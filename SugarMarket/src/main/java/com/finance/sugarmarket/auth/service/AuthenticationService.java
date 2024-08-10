@@ -1,6 +1,7 @@
 package com.finance.sugarmarket.auth.service;
 
 import java.security.SecureRandom;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,9 +93,11 @@ public class AuthenticationService {
 	}
 
 	public SignUpResponseDTO signup(SignUpRequestDTO request) {
-
-		if (userRepo.getActiveUsernameList().contains(request.getUsername())) {
-			return new SignUpResponseDTO(request.getUsername() + " already exists");
+		if (userRepo.existsByUsernameAndIsActive(request.getUsername(), true)) {
+			return new SignUpResponseDTO(request.getUsername() + " already exists", false);
+		}
+		if(userRepo.existsByEmailAndIsActive(request.getEmailId(), true)) {
+			return new SignUpResponseDTO(request.getEmailId() + " already exists", false);
 		}
 
 		MFUser user = new MFUser();
@@ -108,7 +111,7 @@ public class AuthenticationService {
 		MapRoleUser mapRoleUser = saveMapRoleUser(user);
 		if (!sendOTPEmailandSave(request.getEmailId(), request.getUsername(), request.getFullName())) {
 			removeUserAndRoleMapping(user, mapRoleUser);
-			return new SignUpResponseDTO("Failed to send OTP. Please try again.");
+			return new SignUpResponseDTO("Failed to send OTP. Please try again.", false);
 		}
 		return new SignUpResponseDTO(request.getUsername(), request.getEmailId(),
 				"OTP is sent to the registered email ID", true);

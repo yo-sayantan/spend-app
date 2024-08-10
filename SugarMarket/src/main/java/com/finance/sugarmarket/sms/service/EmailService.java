@@ -17,8 +17,7 @@ public class EmailService implements SMSService {
 
     @Override
     public void sendSMS(String toEmail, String subject, String body)  throws Exception {
-        log.info("To: " + toEmail + "\nSubject: " + subject + "\n" + body);
-
+        log.info("Sending email to: " + toEmail);
         try {
         	SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("fromemail@gmail.com");

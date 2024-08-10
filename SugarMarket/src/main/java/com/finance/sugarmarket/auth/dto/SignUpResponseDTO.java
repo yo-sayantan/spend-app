@@ -14,8 +14,9 @@ public class SignUpResponseDTO {
         this.isValid = isValid;
     }
     
-    public SignUpResponseDTO(String message) {
+    public SignUpResponseDTO(String message, Boolean isValid) {
     	this.message = message;
+    	this.isValid = false;
     }
 
     // Getters and Setters
