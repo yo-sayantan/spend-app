@@ -21,4 +21,8 @@ public class MutualFundService {
 	public void saveMutualFund(MutualFund fund) {
 		mutualfundRepo.save(fund);
 	}
+	
+	public void saveAllMutualFund(List<MutualFund> funds) {
+		mutualfundRepo.saveAll(funds);
+	}
 }
